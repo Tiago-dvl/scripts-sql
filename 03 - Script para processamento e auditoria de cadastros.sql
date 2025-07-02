@@ -1,15 +1,4 @@
 
-print  '-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-' + char(10) + 
-       '    Data Inicio da Atualização: ' + convert(varchar(10), getdate(), 126) + char(10) + 
-       '    Hora Inicio de Atualização: ' + (convert(char(8),getdate(),8)) + char(10) + 
-       '              Nome do Servidor: ' + @@servername + char(10) + 
-       '                  Nome do Host: ' + host_name() + char(10) +
-       '              Usuario do Login: ' + system_user + char(10) + 
-       '              Base da execução: ' + db_name () + char(10) + 
-       '       Desenvolvedor do Script: ' + 'Nome do DBA' + char(10) + 
-       '-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-'+ char(10)
-go
-
 /* Este script T-SQL foi projetado para gerenciar e auditar cadastros de clientes, utilizando tabelas temporárias 
    para manipulação inicial dos dados. Ele identifica e processa registros com base em diversas condições, 
    como duplicidade, inexistência ou status de processamento prévio. O objetivo principal é garantir a integridade 
@@ -84,11 +73,3 @@ Begin Tran
   where id_expurgo = 3 order by identificador_doc, cod_cadastro
 
 rollback
-
-go
-print  '-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-' + char(10) + 
-       '      Hora Final da Atualização: ' + (convert(char(8),getdate(),8)) + char(10) + 
-       '               Nome do Servidor: ' + @@servername + char(10) + 
-       '               Base da execução: ' + db_name () + char(10) + 
-       '-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-'+ char(10)
-go
