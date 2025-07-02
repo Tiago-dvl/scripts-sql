@@ -1,3 +1,4 @@
+
 print  '-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-' + char(10) + 
        '    Data Inicio da Atualização: ' + convert(varchar(10), getdate(), 126) + char(10) + 
        '    Hora Inicio de Atualização: ' + (convert(char(8),getdate(),8)) + char(10) + 
@@ -9,25 +10,22 @@ print  '-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x
        '-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-'+ char(10)
 go
 
-/*
-Scrip SQL Server para consulta de dados do cliente, com filtros e parametros de critérios.
-*/
+/* Este script SQL tem como objetivo atualizar um parâmetro específico em uma tabela de configuração. Ele primeiro 
+   consulta o valor atual do parâmetro 'API_STATUS_PARAMETRO', em seguida, atualiza esse valor para '13323', 
+   e por fim, realiza uma nova consulta para verificar se a alteração foi aplicada com sucesso. A transação é
+   encapsulada em um BEGIN TRAN e COMMIT para garantir a atomicidade da operação. */
 
+Begin Tran
 
-select  
-tab.numero_sequencia  'Sequência das alterações', 
-convert(varchar,tab.data_hora_atual,103) 'Data da alteração', 
-case
-    when tab.codigo_usuario = convert(varchar,tab.codigo_cliente then 'Aplicativo Mobile XY' 
-    else 'Atualização na unidade pelo funcionário de matrícula ' + tab.cd_usu_atu
-end 'Canal da comunicação',
-,tab.numero_campo   'Campo da alteração'
-,tab.valor_campo_01 'Valor antes da alteração'
-,tab.valor_campo_02 'Valor depois da alteração'
-from nomeTabela tab with(nolock) 
-where tab.codigo_usuario = 123456789
-   and tab.numero_parametro not in ( 'Parametro 01', 'Parametro 02')
-   and convert(date,tab.data_hora_atual) between '20220514' and '20220830'
+select * from nome_tabela with(nolock) where campo_nome like 'API_STATUS_PARAMETRO'
+
+UPDATE nome_tabela
+SET    campo_valor = '13323'
+WHERE  campo_nome  = 'API_STATUS_PARAMETRO'
+
+select * from nome_tabela with(nolock) where campo_nome like 'API_STATUS_PARAMETRO'
+
+Commit
 
 go
 print  '-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-' + char(10) + 
