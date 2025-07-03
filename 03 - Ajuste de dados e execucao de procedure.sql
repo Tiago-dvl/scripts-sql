@@ -1,10 +1,4 @@
 
-/* Este script T-SQL foi projetado para gerenciar e auditar cadastros de clientes, utilizando tabelas temporárias 
-   para manipulação inicial dos dados. Ele identifica e processa registros com base em diversas condições, 
-   como duplicidade, inexistência ou status de processamento prévio. O objetivo principal é garantir a integridade 
-   dos dados de cadastro, registrando cada etapa do processamento e eventuais restrições em um histórico dedicado,
-   além de gerar relatórios claros sobre os cadastros processados e não processados. */
-
 DECLARE @startTime DATETIME 
 SET @startTime = GETDATE()
 
@@ -61,7 +55,7 @@ Begin Tran
     select cod_cadastro,@data_inc,@canal_origem,@cod_unidade,@cod_posto,@id_motivo,@desc_motivo,@cod_usuario
       from #lista_temp where #lista_temp.id_expurgo = 7
 
-  exec spu_processa_cadastros @data_inc 
+  exec ddd_procedure_dados @data_inc
 
   update #lista_temp set id_expurgo = 12, desc_restricao = E.detalhe_retorno from TabelaHistorico E with (nolock)
     where #lista_temp.cod_cadastro = E.cod_cadastro and E.id_expurgo_retorno = 0 and #lista_temp.id_expurgo = 5

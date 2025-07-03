@@ -1,17 +1,10 @@
 
-/* Este script SQL tem como objetivo consultar o histórico detalhado de alterações realizadas em um cadastro específico.
-   Exibe informações como a data da alteração, o canal pelo qual a mudança foi feita identificando se foi por 
-   aplicativo mobile ou por um funcionário da unidade, o campo que sofreu a alteração, e os valores antes e depois 
-   da modificação. A consulta é filtrada por um código de usuário e um período específico, 
-   excluindo certos parâmetros de alteração. */
-
-
 select  
 tab.numero_sequencia  'Sequência das alterações', 
 convert(varchar,tab.data_hora_atual,103) 'Data da alteração', 
 case
     when tab.codigo_usuario = convert(varchar,tab.codigo_cliente then 'Aplicativo Mobile XY' 
-    else 'Atualização na unidade pelo funcionário de matrícula ' + tab.cd_usu_atu
+    else 'Atualização na unidade pelo funcionário de matrícula ' + tab.codigo_autentico
 end 'Canal da comunicação',
 ,tab.numero_campo   'Campo da alteração'
 ,tab.valor_campo_01 'Valor antes da alteração'

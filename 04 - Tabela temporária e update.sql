@@ -1,10 +1,4 @@
 
-/* Este script SQL tem como objetivo coletar e consolidar informações detalhadas de clientes e seus procuradores
-   em uma tabela temporária. Ele inicia com uma lista de identificadores de documentos e, em seguida, atualiza essa 
-   tabela com dados de diversas fontes, incluindo informações pessoais, de contato e de representação legal. O script 
-   busca preencher campos como código do cliente, nome completo, data de nascimento, telefones e dados do procurador, 
-   consolidando um perfil abrangente para cada entrada na lista inicial. */
-
 if OBJECT_ID('tempdb..#ListaClientes') is not null drop table #ListaClientes
 create table #ListaClientes (
 	,documento_identificacao varchar(14) not null
