@@ -1,15 +1,15 @@
 
 select  
-tab.numero_sequencia  'Sequência das alterações', 
-convert(varchar,tab.data_hora_atual,103) 'Data da alteração', 
+tab.num_seq  'Sequência das alterações', 
+convert(varchar,tab.dh_atual,103) 'Data da alteração', 
 case
-    when tab.codigo_usuario = convert(varchar,tab.codigo_cliente then 'Aplicativo Mobile XY' 
-    else 'Atualização na unidade pelo funcionário de matrícula ' + tab.codigo_autentico
+    when tab.cod_usu = convert(varchar,tab.cod_cli then 'Aplicativo Mobile XY' 
+    else 'Atualização na unidade pelo funcionário de matrícula ' + tab.cod_aut
 end 'Canal da comunicação',
-,tab.numero_campo   'Campo da alteração'
-,tab.valor_campo_01 'Valor antes da alteração'
-,tab.valor_campo_02 'Valor depois da alteração'
+,tab.num_campo   'Campo da alteração'
+,tab.va_campo_01 'Valor antes da alteração'
+,tab.va_campo_02 'Valor depois da alteração'
 from nomeTabela tab with(nolock) 
-where tab.codigo_usuario = 123456789
-   and tab.numero_parametro not in ( 'Parametro 01', 'Parametro 02')
-   and convert(date,tab.data_hora_atual) between '20220514' and '20220830'
+where tab.cod_usu = 123456789
+   and tab.num_par not in ( 'Parametro 01', 'Parametro 02')
+   and convert(date,tab.dh_atual) between '20220514' and '20220830'

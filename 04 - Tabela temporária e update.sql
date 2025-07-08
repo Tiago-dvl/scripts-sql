@@ -1,74 +1,74 @@
 
-if OBJECT_ID('tempdb..#ListaClientes') is not null drop table #ListaClientes
-create table #ListaClientes (
-	,documento_identificacao varchar(14) not null
-	,codigo_cliente          integer null
-	,nome_completo           varchar(60) null
-	,situacao_cadastro       varchar (4)
-	,numero_agencia          integer null
-	,data_nascimento         integer null
-	,ddd_telefone            integer null
-	,numero_telefone         integer null
-	,ddd_celular             integer null
-	,numero_celular          integer null
-	,codigo_procurador       varchar (14)
-	,nome_procurador         varchar (60)
-	,tipo_representante      varchar (4)
-	,ddd_procurador          integer null
-	,celular_procurador      integer null
-	,ddd2_procurador         integer null
-	,celular2_procurador     integer null
-	primary key (documento_identificacao))
+if OBJECT_ID('tempdb..#LstCli') is not null drop table #LstCli
+create table #LstCli (
+	,doc_idntf varchar(14) not null
+	,cod_clint          integer null
+	,nm_complt           varchar(60) null
+	,sit_cdst       varchar (4)
+	,nm_agnc          integer null
+	,dt_nasc         integer null
+	,ddd_telfn            integer null
+	,nm_telfn         integer null
+	,ddd_cel             integer null
+	,num_cel          integer null
+	,cod_pcrdr       varchar (14)
+	,nm_pcrdr         varchar (60)
+	,tp_rep      varchar (4)
+	,ddd_rep          integer null
+	,cel_pcrdr      integer null
+	,ddd_pcrdr         integer null
+	,cel_pcrdr     integer null
+	primary key (doc_idntf))
 
-create index idx_ListaClientes_documento on #ListaClientes(documento_identificacao)
+create index idx_LstCli_documento on #LstCli(doc_idntf)
 
-insert into #ListaClientes (documento_identificacao) values ('11111111111'),('22222222222'),('33333333333'),('44444444444')
+insert into #LstCli(doc_idntf) values ('11111111111'),('22222222222'),('33333333333'),('44444444444')
 
-select * from #ListaClientes with(nolock)
+select * from #LstCli with(nolock)
 
-update #ListaClientes
-set codigo_cliente = p.codigo_cliente, nome_completo = P.nome_completo
-from TabelaPessoas P
-with(nolock) where p.documento_identificacao = #ListaClientes.documento_identificacao
+update #LstCli
+set cod_clint = p.cod_clint, nm_complt = P.nm_complt
+from TbelPess P
+with(nolock) where p.doc_idntf = #LstCli.doc_idntf
 
-update #ListaClientes
-set data_nascimento = F.data_nascimento
-from TabelaPessoasFisicas F
-where F.codigo_cliente = #ListaClientes.codigo_cliente
+update #LstCli
+set dt_nasc = F.dt_nasc
+from TbelPessF F
+where F.cod_clint = #LstCli.cod_clint
 
-update #ListaClientes
-set ddd_telefone = E.nr_ddd, numero_telefone = E.nr_fn, ddd_celular = E.nr_ddd_cel, numero_celular = E.nr_cel
-from TabelaEnderecos E
+update #LstCli
+set ddd_telfn = E.nr_ddd, nm_telfn = E.nr_fn, ddd_cel = E.nr_ddd_cel, num_cel = E.nr_cel
+from TbelEnd E
 with(nolock)
-where e.codigo_cliente = #ListaClientes.codigo_cliente
+where e.cod_clint = #LstCli.cod_clint
 
-update #ListaClientes
-set ddd_telefone = E.nr_ddd, numero_telefone = E.nr_fn, ddd_celular = E.nr_ddd_cel, numero_celular = E.nr_cel
-from TabelaEnderecos E
+update #LstCli
+set ddd_telfn = E.nr_ddd, nm_telfn = E.nr_fn, ddd_cel = E.nr_ddd_cel, num_cel = E.nr_cel
+from TbelEnd E
 with(nolock)
-where e.codigo_cliente = #ListaClientes.codigo_cliente
+where e.cod_clint = #LstCli.cod_clint
 
-update #ListaClientes
-set codigo_procurador = M.codigo_procurador, nome_procurador = M.nome_procurador
-from TabelaProcuradores M
-where M.codigo_cliente = #ListaClientes.codigo_cliente
+update #LstCli
+set cod_pcrdr = M.cod_pcrdr, nm_pcrdr = M.nm_pcrdr
+from TbelPrcu M
+where M.cod_clint = #LstCli.cod_clint
 
-update #ListaClientes
-set ddd_procurador = N.ddd_telefone, celular_procurador = N.numero_telefone, ddd2_procurador = N.ddd_celular, celular2_procurador = N.numero_celular
-from TabelaEnderecos N with (nolock)
-where N.codigo_cliente = #ListaClientes.codigo_procurador
+update #LstCli
+set ddd_rep = N.ddd_telfn, cel_pcrdr = N.nm_telfn, ddd_pcrdr = N.ddd_cel, cel_pcrdr = N.num_cel
+from TbelEnde N with (nolock)
+where N.cod_clint = #LstCli.cod_pcrdr
 
-select tipo_representante =
+select tp_rep =
     case
-        when M.tipo_representante = 'P' then 'Pai'
-        when M.tipo_representante = 'M' then 'Mae'
-        when M.tipo_representante = 'T' then 'Tutor'
-        when M.tipo_representante = 'C' then 'Curador'
+        when M.tp_rep = 'P' then 'Pai'
+        when M.tp_rep = 'M' then 'Mae'
+        when M.tp_rep = 'T' then 'Tutor'
+        when M.tp_rep = 'C' then 'Curador'
         else 'Outro'
     end
-from TabelaProcuradores M
-where M.codigo_cliente = #ListaClientes.codigo_cliente;
+from TbelPrcs M
+where M.cod_clint = #LstCli.cod_clint;
 
-select * from #ListaClientes with(nolock)
+select * from #LstCli with(nolock)
 
-drop table #ListaClientes
+drop table #LstCli
